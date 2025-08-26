@@ -1,0 +1,45 @@
+\babel@toc {vietnamese}{}\relax 
+\contentsline {chapter}{\numberline {1}Mở đầu}{7}{chapter.1}%
+\contentsline {subsubsection}{Tuần 1}{7}{section*.6}%
+\contentsline {subsubsection}{Tuần 2}{7}{section*.7}%
+\contentsline {subsubsection}{Tuần 3}{8}{section*.8}%
+\contentsline {subsubsection}{Tuần 4}{8}{section*.9}%
+\contentsline {subsubsection}{Tuần 5}{8}{section*.10}%
+\contentsline {subsubsection}{Tuần 6}{9}{section*.11}%
+\contentsline {chapter}{\numberline {2}Tổng quan về 5G/NR.}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Kiến trúc.}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Luồng dữ liệu trong hệ thống.}{12}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Lớp vật lý}{13}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Frame Structure.}{14}{subsection.2.3.1}%
+\contentsline {subsubsection}{Numerology.}{14}{section*.12}%
+\contentsline {subsubsection}{Lưới tài nguyên (Resource Grid).}{16}{section*.13}%
+\contentsline {section}{\numberline {2.4}Dạng sóng.}{17}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Sinh và phát hiện chuỗi dựa trên tương quan để giải mã UCI trong PUCCH format 0.}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Khái quát về kênh PUCCH và các format.}{18}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Công thức liên quan.}{19}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Tính tương quan.}{19}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Công thức điều chế kênh PUCCH format 0.}{19}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Chuỗi Low-PAPR (Low peak-to-average-power ratio).}{19}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Độ dài chuỗi ZC: M\textsubscript {ZC}}{20}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Chuỗi cơ sở $\overline {\rm r}_{u,v}(n)$}{20}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Tham số $u$}{21}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Giá trị nhảy dịch vòng $\alpha $}{23}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Công thức của format 0 được tổng hợp thành:}{24}{subsection.3.3.6}%
+\contentsline {section}{\numberline {3.4}Quá trình phát hiện chuỗi (sequence detection) dựa trên tương quan để giải mã UCI của PUCCH format 0.}{24}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Tương quan giữa 2 chuỗi.}{25}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Triển khai trên MATLAB.}{25}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Tìm hiểu kiến trúc AI Engine trên chip Versal.}{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Giới thiệu về AI Engine và Versal}{26}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Versal Adaptive Compute Acceleration Platform (Versal ACAPs)}{26}{section.4.2}%
+\contentsline {section}{\numberline {4.3}AI Engine Array Features}{27}{section.4.3}%
+\contentsline {paragraph}{AIE Tiles:}{27}{section*.14}%
+\contentsline {paragraph}{AIE Array Interface to NoC and PL Resources:}{28}{section*.15}%
+\contentsline {section}{\numberline {4.4}Tổng quan về mảng AI Engine}{28}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Cấu trúc chi tiết AI Engine tile.}{29}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Truy cập tài nguyên qua AXI4 MM}{30}{section.4.6}%
+\contentsline {section}{\numberline {4.7}AXI4-Stream Interconnect\blx@tocontentsinit {0}\cite {amdAM009}.}{30}{section.4.7}%
+\contentsline {section}{\numberline {4.8}AI Engine Tile Program Memory\blx@tocontentsinit {0}\cite {amdAM009}}{32}{section.4.8}%
+\contentsline {section}{\numberline {4.9}AI Engine Interfaces}{32}{section.4.9}%
+\contentsline {section}{\numberline {4.10}AIE Architechture}{32}{section.4.10}%
+\contentsline {section}{\numberline {4.11}Code Bài tập nhân ma trận AI Engine}{35}{section.4.11}%
+\contentsline {chapter}{\numberline {5}Kết luận và hướng phát triển.}{37}{chapter.5}%

@@ -1,0 +1,222 @@
+\chapter{Sinh và phát hiện chuỗi dựa trên tương quan để giải mã UCI trong PUCCH format 0.}
+\begin{quote}
+    Thời gian nghiên cứu: tuần 3, 4, 5, 6.
+\end{quote}
+\section{Khái quát về kênh PUCCH và các format.}
+ Kênh PUCCH (Physical Uplink Control Channel) là kênh vật lý đường lên trong hệ thống 4G LTE và 5G NR, được thiết kế để truyền các thông tin điều khiển ngắn gọn (\textbf{UCI}) từ thiết bị đầu cuối (UE) về trạm gốc (gNB/eNB). Thông tin này thường bao gồm các chỉ số phản hồi (Hybrid Automatic Repeat Request Acknowledgment - \textbf{HARQ-ACK}), báo hiệu yêu cầu tài nguyên đường lên (Scheduling Request - \textbf{SR}) và các giá trị chỉ thị chất lượng kênh (Channel State Information - \textbf{CSI}).\cite{kivijakola2024pucch}
+ 
+ Khác với kênh PUSCH, vốn mang dữ liệu người dùng, PUCCH chỉ tập trung vào dữ liệu điều khiển nhằm đảm bảo kết nối hiệu quả và duy trì liên lạc ổn định. Tùy theo dung lượng thông tin và yêu cầu độ tin cậy, PUCCH được chuẩn hóa thành nhiều định dạng khác nhau, trong đó mỗi định dạng có cơ chế ánh xạ tài nguyên và phương pháp điều chế riêng.
+
+ Có 5 format để lựa chọn (0, 1, 2, 3, 4) tùy vào các đặc điểm:
+    \begin{itemize}
+        \item 0, 1 dùng để mang số lượng  UCI bit <= 2. 
+        \item 0, 2 là short PUCCH vì nó chỉ dài 1-2 symbols.
+        \item 1, 3, 4 là long PUCCH vì dài 4 -> 14 symbols.
+        \item 0, 1, 2 được sử dụng nhiều hơn.
+\end{itemize}
+Báo cáo này tập trung nghiên cứu kênh PUCCH Format 0, với trọng tâm là các công thức mã hóa (encode) và giải mã (decode) tín hiệu.  
+    
+    Format 0:
+    \begin{itemize}
+        \item Loại: short PUCCH.
+        \item Độ dài: 1-2 OFDM symbols.
+        \item UE multiplexing: có, tối đa 12 UE.
+        \item Dạng tín hiệu: dựa trên Zadoff-Chu sequence và cyclic shift.
+    \end{itemize}
+
+\section{Công thức liên quan.}
+
+
+\subsection{Tính tương quan.}
+Tương quan giữa hai chuỗi tín hiệu là một phép đo mức độ giống nhau giữa chúng khi một chuỗi được dịch chuyển tương đối so với chuỗi còn lại. Trong xử lý tín hiệu, tương quan thường được sử dụng để phát hiện mẫu, trích xuất đặc trưng hoặc đo độ trễ giữa các tín hiệu.
+
+Cho hai chuỗi tín hiệu rời rạc \( x[n] \) và \( y[n] \), hàm tương quan chéo (cross-correlation) được định nghĩa như sau:
+
+\begin{equation}
+R_{xy}[k] = \sum_{n = -\infty}^{\infty} x[n] \cdot y[n + k]
+\end{equation}
+
+Trong thực tế, với tín hiệu hữu hạn chiều dài \( N \), công thức được viết lại như sau:
+
+\begin{equation}
+R_{xy}[k] = \sum_{n = 0}^{N-1} x[n] \cdot y[n + k]
+\end{equation}
+
+Khi \( x[n] = y[n] \), ta thu được hàm tương quan tự thân (auto-correlation):
+
+\begin{equation}
+R_{xx}[k] = \sum_{n = 0}^{N-1} x[n] \cdot x[n + k]
+\end{equation}
+
+Giá trị \( R_{xy}[k] \) đạt cực đại khi hai chuỗi giống nhau nhất tại độ dịch \( k \), từ đó có thể xác định độ trễ hoặc mức độ đồng bộ giữa hai tín hiệu.
+
+\section{Công thức điều chế kênh PUCCH format 0.}
+
+\subsection{Chuỗi Low-PAPR (Low peak-to-average-power ratio).}
+ Format 0 sử dụng phương trình chuỗi LPAPR loại 1, và cấu trúc của nó được minh họa trong Hình 14. Phương trình: 
+\[
+r^{\alpha ,\delta }_{u,v}(n) = e ^{j\alpha n}\overline{\rm r}_{u,v}(n),   \space 0 \leq n < M_{ZC}
+\]
+ 
+ Chuỗi bao gồm hai thành phần: phần quay pha $e^{j\alpha n}$ và phần chuỗi gốc $\overline{\rm r}_{u,v}(n)$. Phần chuỗi gốc là chuỗi Zadoff-Chu. Thành phần quay pha được sử dụng để ghép kênh nhiều UE cùng chia sẻ các tài nguyên vật lý giống nhau và mang dữ liệu UCI trong trường hợp format 0. 
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Pictures/processing chain.png}
+    \caption{Quá trình tạo chuỗi Low-PAPR.\cite{kivijakola2024pucch}}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\subsection{Độ dài chuỗi ZC: M\textsubscript{ZC}}
+Được tính theo \[ M_{ZC} = mN^{RB}_{sc}/2^{\delta} \] với các giá trị:
+\begin{itemize}
+    \item $m$ là số RB được sử dụng, ở đây format 0 thì $m=1$.
+    \item $N^{RB}_{sc}$: số subcarrier trên 1 resource block, ở đây là 12 (chiều rộng tần số là 12).
+    \item $\delta =0$. 
+\end{itemize}
+ Bằng việc có được độ dài chuỗi, ta tìm chuỗi ZC.
+\subsection{Chuỗi cơ sở $\overline{\rm r}_{u,v}(n)$}
+\[
+\overline{\rm r}_{u,v}(n)=e^{j\phi(n)\pi/4},\space  0 \leq n \leq M_{ZC}-1 \label{pt r}
+\]
+ Với việc đối chiếu giá trị \textbf{$u$} với bảng giá trị đã được tính toán trước của chuỗi ZC \ref{fig:phi(n)}, ta tìm được chuỗi $\phi(n)$ với $M_{ZC}=12$. Kết quả của chuỗi thu được sau phương trình \ref{pt r} sẽ là 1 chuỗi phức gồm $M_{ZC}$ phần tử. 
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=1\linewidth]{Pictures/table_phi.png}
+     \caption{Bảng giá trị cho $\phi(n)$ với $M_{ZC}=12$ \cite{3gpp38.211}}
+     \label{fig:phi(n)}
+ \end{figure}
+\subsection{Tham số $u$}
+ \[ u = (f_{gh}+f_{ss})\space \bmod \space 30 \]
+  Với tham số \textit{pucch-grouphopping} khác nhau, các giá trị của $f_{gh}$ và $f_{ss}$ khác nhau
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\linewidth]{Pictures/pt u.png}
+      \caption{Công thức giá trị của $u$ ứng với giá trị $GroupHopping$ khác nhau. \cite{ShareTechnote_5G_Waveform}}
+  \end{figure}
+\begin{itemize}
+    \item $n_{ID}$: như trên, là tham số được cung cấp bởi layer cao hơn.
+    \item $n^\mu_{s,f}$: định nghĩa bởi slot number trong radio frame hiện tại với giá trị $\mu$ được cấu hình.
+    \item $n_{hop}$ = 0 hoặc 1, dựa vào frequency hopping config.
+    \item $c(n) = (x_1(n + N_C)+x_2(n + N_C)) \bmod 2$ dùng để tạo chuỗi giả ngẫu nhiên từ 2 chuỗi x1, x2. Đọc thêm ở \cite{3gpp38211PRBS}.
+    \begin{itemize}
+        \item $N_C=1600$: gọi là "warm-up phase" – nghĩa là 1600 bit đầu tiên được bỏ qua để tránh tính tuần hoàn ban đầu và đảm bảo tính ngẫu nhiên.
+        \item $x_1 (n+31)=(x_1 (n+3)+x_1 (n))\bmod2$ với $x_1(0)=1$ và $x_1(k)=0$ với k từ 1 đến 30.
+        \item $x_2(n+31)=(x_2(n+3)+x_2(n+2)+x_2(n+1)+x_2(n))\bmod2$ với 30 phần tử đầu được khởi tạo với giá trị nhị phân là biểu diễn của thành phần $c_{init}$ dưới dạng số nhị phân 31 bit với $$c_{\text{init}} = \left\lfloor \frac{n_{\text{ID}}}{30} \right\rfloor
+$$
+    \end{itemize}
+\end{itemize}
+\subsection{Giá trị nhảy dịch vòng $\alpha$}
+Là nơi ghi giá trị data được truyền, biểu thị độ xoay pha. \[\alpha = \frac{2\pi}{N^{\text{RB}}_{\text{sc}}} \cdot (( m_0 + m_{\text{cs}} + m_{\text{int}} + n_{\text{cs}}(n^{\mu}_{s,f},\ l + l')  ) \bmod N^{\text{RB}}_{\text{sc}})
+\]
+Phương trình chia $2\pi$ ra làm 12 góc quay, khi được truyền vào giá trị $e^{j\alpha n}$, sẽ có 12 giá trị đầu ra.
+\begin{itemize}
+    \item $m_0$: lấy từ chỉ số quay ban đầu (Initial cyclic shift) từ lớp RRC hoặc mặc định.
+    \item $m_{int}= 5n_{IRB}^{\mu}$ nếu PUCCH sử dụng ánh xạ interlaced theo tham số \textit{userInterlacePUCCH-PUSCH}, trong đó $n_{IRB}^{\mu}$ là số resource block trong interlace.
+    \item $m_{cs}$: Được xác định theo giá trị của các UCI bit (bao gồm ACK và SR):  
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|c|c|}
+                 \hline
+                 HARQ Value& 0 & 1 & 0, 0 & 0, 1 & 1, 1 & 1, 0\\\hline
+                 Negative SR& 0 & 6 & 0 & 3 & 6 & 9\\\hline
+                 Positive SR& 3 & 9 & 1 & 4 & 7 & 10\\ \hline
+            \end{tabular}
+            \caption{Giá trị $m_{cs} $ với HARQ, SR thay đổi}
+            \label{tab:mcs}
+        \end{table}
+        
+    \item $n_{\text{cs}}(n_{s,f}^\mu, l) = \sum_{m=0}^{7} 2^{m} \, c\left(8 \, n_{s,f}^\mu + 8l + m \right)$
+            \begin{itemize}
+          \item \( n_{\text{cs}}(n_{s,f}^\mu, l) \):
+          \begin{itemize}
+            \item Chỉ số cyclic shift (độ dịch chuyển vòng) dùng để xác định góc quay pha trong tín hiệu PUCCH Format 0.
+            \item Giá trị phụ thuộc vào slot và symbol hiện tại, đảm bảo pha quay thay đổi theo thời gian.
+          \end{itemize}
+        
+          \item \( n_{s,f}^\mu \):
+          \begin{itemize}
+            \item Chỉ số slot trong khung truyền, với \(\mu\) là tham số định nghĩa loại subcarrier spacing (ví dụ \(\mu=0\) cho 15 kHz, \(\mu=1\) cho 30 kHz,...).
+            \item Biểu thị slot số \(n_s\) trong frame \(f\), tính theo tham số \(\mu\).
+          \end{itemize}
+        
+          \item \( l \):
+          \begin{itemize}
+            \item Chỉ số của OFDM symbol trong slot.
+            \item Kết hợp với slot giúp xác định chính xác thời điểm trong khung truyền.
+          \end{itemize}
+        
+          \item \( m \):
+          \begin{itemize}
+            \item Biến chạy từ 0 đến 7, đại diện cho 8 bit liên tiếp được sử dụng để tạo ra \( n_{cs} \).
+            \item Tổng 8 bit được ghép lại thành một số nguyên từ 0 đến 255.
+          \end{itemize}
+        
+          \item \( c(\cdot) \):
+          \begin{itemize}
+            \item Phần tử thứ \(\left(8 n_{s,f}^\mu + 8 l + m\right)\) trong chuỗi bit pseudo-random.
+            \item Chuỗi \( c(\cdot) \) được tạo ra từ bộ tạo bit giả ngẫu nhiên (ví dụ Gold sequence) để đảm bảo tính ngẫu nhiên và giảm can nhiễu.
+            \item Mỗi bit \( c(\cdot) \) có giá trị 0 hoặc 1.
+          \end{itemize}
+        
+          \item Ý nghĩa tổng:
+          \[
+          n_{\text{cs}}(n_{s,f}^\mu, l) = \sum_{m=0}^7 2^m \cdot c\left(8 n_{s,f}^\mu + 8 l + m \right)
+          \]
+          \begin{itemize}
+            \item Ghép 8 bit liên tiếp từ chuỗi \( c(\cdot) \) thành một số nguyên từ 0 đến 255.
+            \item Số nguyên này được dùng làm chỉ số dịch vòng (cyclic shift) để thay đổi pha quay.
+            \item Giúp pha quay thay đổi theo thời gian, tránh giao thoa và tăng tính ngẫu nhiên của tín hiệu.
+          \end{itemize}
+        \end{itemize}
+\end{itemize}
+\subsection{Công thức của format 0 được tổng hợp thành:}
+\begin{equation}
+x\left(l M^{\text{PUCCH,0}}_{\text{RB}} N^{\text{RB}}_{\text{sc}} + n\right) = r^{\alpha,\delta}_{u,v}(n)
+\end{equation}
+\[
+n = 0, 1, \ldots, M^{\text{PUCCH,0}}_{\text{RB}} N^{\text{RB}}_{\text{sc}} - 1
+\]
+\[
+l = 
+\begin{cases}
+0 & \text{Chỉ dùng 1 symbol} \\
+0, 1 & \text{Dùng 2 symbol}
+\end{cases}
+\]
+
+
+
+\section{Quá trình phát hiện chuỗi (sequence detection) dựa trên tương quan để giải mã UCI của PUCCH format 0.}
+Quá trình giải mã UCI của PUCCH format 0 được thực hiện bằng so khớp tương quan chuẩn hóa: 
+\begin{itemize}
+    \item Tín hiệu sau OFDM được so sánh với tất cả các chuỗi tham chiếu (sinh ra từ các tổ hợp của ACK và SR).
+    \item Tính giá trị tương quan trung bình trên các anten và chọn tổ hợp có giá trị cao nhất.
+    \item Tổ hợp này được ánh xạ ngược lại thành các bit ACK/SR, với điều kiện giá trị tương quan vượt ngưỡng phát hiện.
+\end{itemize}
+
+\subsection{Tương quan giữa 2 chuỗi.}
+% Công thức tính tương quan chuẩn hóa giữa hai chuỗi tín hiệu x và y
+\begin{equation}
+R_{xy} = \frac{\left| \sum_{n=0}^{N-1} x[n] \cdot y^{*}[n] \right|}
+{\sqrt{\left( \sum_{n=0}^{N-1} |x[n]|^2 \right) \cdot \left( \sum_{n=0}^{N-1} |y[n]|^2 \right)}}
+\end{equation}
+%
+trong đó:
+\begin{itemize}
+    \item $x[n]$: mẫu tín hiệu thu được sau giải điều chế OFDM.
+    \item $y[n]$: mẫu chuỗi tham chiếu (reference sequence) ứng với một tổ hợp bit UCI giả định.
+    \item $(\cdot)^{*}$: liên hợp phức (complex conjugate).
+    \item $N$: số phần tử trong chuỗi (bao gồm toàn bộ subcarrier và symbol).
+    \item $|\cdot|$: giá trị tuyệt đối (độ lớn) của số phức.
+\end{itemize}
+%
+Giá trị $R$ nằm trong khoảng $[0,1]$, càng gần 1 thì mức độ giống nhau giữa hai chuỗi càng cao.
+
+\section{Triển khai trên MATLAB.}
+Em đã đọc code mẫu của MATLAB kết hợp với lý thuyết trên, em đã triển khai lại theo ý hiểu toàn bộ phần code để sinh chuỗi giả ngẫu nhiên (PRBS), tính alpha, và sinh ra chuỗi cơ sở với kết quả tương đương như hàm của MATLAB với cùng các tham số đầu vào. Code được đính kèm ở cuối báo cáo.
+
+
+Code và các hàm liên quan được đăng trên github \href{https://github.com/ltrnnhdng/PUCCHF0_MATLAB}{PUCCHF0\_MATLAB – GitHub Repository}.
+

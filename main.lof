@@ -1,0 +1,16 @@
+\babel@toc {vietnamese}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Kiến trúc mức cao.}}{11}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Luồng dữ liệu trong hệ thống.}}{12}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Các thông số vật lý trong numerology.\blx@tocontentsinit {0}\cite {ShareTechnote_5GNR_nume}}}{15}{figure.2.3}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Mô tả trực quan của khối dữ liệu trong 1 subframe.\blx@tocontentsinit {0}\cite {ShareTechnote_5GNR_nume}}}{16}{figure.2.4}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Quá trình tạo chuỗi Low-PAPR.\blx@tocontentsinit {0}\cite {kivijakola2024pucch}}}{20}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bảng giá trị cho $\phi (n)$ với $M_{ZC}=12$ \blx@tocontentsinit {0}\cite {3gpp38.211}}}{21}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Công thức giá trị của $u$ ứng với giá trị $GroupHopping$ khác nhau. \blx@tocontentsinit {0}\cite {ShareTechnote_5G_Waveform}}}{22}{figure.3.3}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Cấu trúc mảng AIE}}{28}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Cấu trúc chi tiết của AI Engine Tile}}{29}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Địa chỉ giao diện AXI4}}{30}{figure.4.3}%
+\addvspace {10\p@ }

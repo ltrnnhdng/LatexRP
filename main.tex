@@ -1,0 +1,214 @@
+\documentclass[13pt]{report}
+
+% Ngôn ngữ & font
+\usepackage[utf8]{inputenc} % hoặc bỏ nếu compile bằng XeLaTeX/LuaLaTeX
+\usepackage[vietnamese]{babel}
+
+% Toán học
+\usepackage{amsmath, amssymb, amsfonts}
+
+% Bố cục
+\usepackage[left=2.5cm, right=2cm, top=2.5cm, bottom=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{float}
+
+% Hình ảnh & màu
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pdfpages}
+
+% Font chữ (chọn 1 trong 2)
+% \usepackage{mathptmx} % Times
+ \usepackage{mathpazo} % Palatino
+
+% Link & trích dẫn
+\usepackage[pdftex]{hyperref}
+\usepackage{url}
+\usepackage[backend=biber,sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+% Thuật toán & code
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listingsutf8}
+
+% Code block background
+\definecolor{codebg}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{cstyle}{
+    language=C,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    % numbers=left,
+    % numberstyle=\tiny\color{gray},
+    % stepnumber=1,
+    % numbersep=10pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4,
+    captionpos=b
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage} % Đánh số trang ở chân trang phải
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\begin{document}
+
+\thispagestyle{empty}
+\fboxsep1em
+\fboxrule2pt
+\setlength{\baselineskip}{18truept}
+\noindent\fbox{
+\begin{minipage}
+    [c][\dimexpr\textheight-2\fboxsep-2\fboxrule]
+    [c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}
+    \begin{center}
+				\fontsize{14pt}{20pt}\selectfont 
+				{ĐẠI HỌC QUỐC GIA HÀ NỘI}\\
+				{TRƯỜNG ĐẠI HỌC CÔNG NGHỆ}\\
+				{\bf \textbf{KHOA ĐIỆN TỬ VIỄN THÔNG}} \\
+				\vskip 2cm
+				\centerline{\includegraphics[height=5cm]{Pictures/logo_UET.png}}
+                \vskip 1.5cm
+                
+                \fontsize{18pt}{20pt}\selectfont 	
+				{Báo cáo Thực tập ngành ĐTVT}\\
+                \vskip 0.25cm
+                \fontsize{18pt}{18pt}\selectfont 
+                {\bf \textbf{Công ty Viettel High Tech}}\\
+                \fontsize{13pt}{20pt}\selectfont
+                
+                
+                \vskip 3cm
+                \fontsize{15pt}{18pt} \selectfont {
+                \begin{tabular}{ll}
+                    Giảng viên hướng dẫn & \textbf{TS. Nguyễn Hồng Thịnh} \\
+                    Sinh viên:  
+                    & \textbf{Lê Trần Anh Dũng - 22029041} \\ 
+                \end{tabular}{}}
+
+				\vfill
+				{\bf Hà Nội - Tháng 9,2025}
+			\end{center}
+\end{minipage}}
+
+
+\chapter*{Lời cảm ơn}
+\large
+
+Em xin gửi lời cảm ơn chân thành đến cô TS.Nguyễn Hồng Thịnh đã dành thời gian để đọc và góp ý cho báo cáo của em. Những nhận xét và hướng dẫn của cô là nguồn động lực và cũng là cơ sở quan trọng giúp em hoàn thiện hơn trong quá trình nghiên cứu, để các báo cáo được hoàn chỉnh và kỳ thực tập được diễn ra hiệu quả.
+
+Bên cạnh đó, em cũng xin bày tỏ lòng biết ơn sâu sắc đến anh Lê Thanh Bằng - Trưởng phòng Phát triển nền tảng FPGA -
+Trung tâm Nghiên cứu thiết bị Vô tuyến băng rộng - Khối 2 - TCT VHT và anh Trung. Trong suốt thời gian thực tập, em đã nhận được sự chỉ dẫn tận tình, những chia sẻ kinh nghiệm quý báu cũng như sự hỗ trợ nhiệt tình từ anh Bằng và anh Trung. Đây là những hành trang vô cùng quan trọng giúp em tiếp cận thực tế công việc, củng cố kiến thức chuyên môn và định hướng rõ ràng hơn cho con đường nghiên cứu, học tập của mình.
+
+Em xin kính chúc cô sức khỏe dồi dào, hạnh phúc và thành công trong công tác giảng dạy và nghiên cứu. Đồng thời, em cũng xin kính chúc anh Bằng và anh Trung luôn mạnh khỏe, nhiều niềm vui và đạt nhiều thành công trong công việc cũng như cuộc sống.
+
+\hspace{8cm} Hà Nội, ngày 23 tháng 8 năm 2025
+
+
+\newpage
+\let\cleardoublepage\clearpage
+\large
+\tableofcontents
+\let\cleardoublepage\clearpage
+\newpage
+\phantomsection
+\listoffigures 
+\newpage
+\listoftables
+
+\chapter{Mở đầu}
+Trong quá trình 6 tuần thực tập tại công ty Vietel High Tech, em đã được giao các đầu việc sau đây:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Pictures/image.png}
+\end{figure}
+Tiến độ các tuần: 
+\subsubsection{Tuần 1}
+Công việc chính: 
+\begin{itemize}
+    \item Đọc tài liệu tổng quan về 5G: Tìm hiểu các khái niệm như Frame Structure, Numerology, Waveform, Frequency Band, BWP, Synchronization, Beam Management, CSI Framework, Channel Mapping.
+    \item Làm quen với FPGA, AI Engine: Tìm kiếm các tài liệu của ADM về AI Engine và chip Versal. 
+\end{itemize}
+Khó khăn: Chưa có đủ tài liệu hướng dẫn chi tiết về AI Engine, chưa có hiểu biết về các thế hệ mạng trước đó nên khó tiếp cận với kiến trúc 5GNR.
+\subsubsection{Tuần 2}
+Công việc chính
+\begin{itemize}
+    \item Tiếp tục nghiên cứu về 5G, kênh PUCCH format 0 ở các lớp L1, L2, L3
+    \item Tìm hiểu sâu hơn về AI Eingine trên Versal: kiến trúc của AIE tile, streaming interconnect, DMA, programmable logic, đọc tài liệu từ ADM/Xilinx về sử dụng AIE cho nhân ma trận.
+\end{itemize}
+Kết quả: Đã hình dung được kiến trúc tổng thể của chip Versal và cách AI Engine hoạt động, các kênh PUCCH hoạt động.
+\subsubsection{Tuần 3}
+Công việc chính: 
+\begin{itemize}
+    \item Ghi chép, tổng hợp tài liệu để viết báo cáo về cách tạo chuỗi của kênh PUCCH format 0 và chuẩn bị triển khai kênh này trên MATLAB.
+\end{itemize}
+Khó khăn: không triển khai được FPGA với AIE do chưa có phần mềm Vitis.
+
+\subsubsection{Tuần 4}
+Công việc chính:
+\begin{itemize}
+    \item Đọc và ghi chép về PUCCH ở lớp vật lý, xử lý bản tin từ UE đến gNB.
+    \item Mô phỏng tín hiệu PUCCH format 0 trên MATLAB, thêm nhiễu AWGN (SNR = 10dB).
+    \item Phân tích ảnh hưởng của nhiễu đến tín hiệu và chòm sao tín hiệu.
+    \item Tìm tài liệu về điều chế và giải điều chế sóng dựa trên chuỗi Zadoff-Chu.
+\end{itemize}
+\subsubsection{Tuần 5}
+Công việc chính:
+\begin{itemize}
+    \item Xây dựng bộ sinh chuỗi PUCCH format 0 từ các bit HARQ và SR đầu vào.
+    \item Mô phỏng toàn bộ quá trình sinh chuỗi trên MATLAB:\begin{itemize}
+        \item Tính toán các tham số như $Mzc, Tu,v(n), u, \alpha.$
+        \item Sinh chuỗi Zadoff-Chu và áp dụng xoay pha.
+        \item Viết lại toàn bộ hàm sinh chuỗi giả ngẫu nhiên theo công thức trong tài liệu.
+        \item So sánh kết quả với thư viện MATLAB gốc để kiểm chứng độ chính xác.
+    \end{itemize}
+\end{itemize}
+
+Kế hoạch tuần tới: Viết hàm decode để trích xuất thông tin HARQ và SR từ tín hiệu nhận được.
+\subsubsection{Tuần 6}
+Công việc chính:
+\begin{itemize}
+    \item Xây dựng bộ giải mã chuỗi PUCCH format 0 từ tín hiệu nhận được sau khi được truyền qua kênh nhiễu.
+    \item Chỉnh sửa lại code sinh chuỗi trên MATLAB để phù hợp với các điều kiện đầu vào khác nhau.
+    \item Báo cáo tổng kết với người hướng dẫn.
+\end{itemize}
+
+
+Trong báo cáo này, em sẽ tập trung vào những khía cạnh tổng quan nhất của 5G và thực thi kênh PUCCH (physical uplink channel) format 0 bằng MATLAB với công đoạn mã hóa và giải mã bằng so sánh tương quan theo tài liệu hướng dẫn của 3GPP và website Sharetechnote. 
+Bên cạnh đó, báo cáo này cũng bao gồm những kiến thức cơ bản em tìm hiểu được về kiến trúc của công nghệ AI Engine trên chip Versal theo các tài liệu của nhà sản xuất AMD cung cấp.
+
+Mục tiêu chính của kì thực tập này là củng cố kiến thức nền tảng và tìm hiểu các kiến thức mới về mạng di động 5G, nắm bắt các khái niệm quan trọng trong lớp vật lý của 5GNR, đồng thời rèn luyện kỹ năng triển khai và mô phỏng các kênh vật lý bằng công cụ MATLAB.  
+
+Bên cạnh đó, kì thực tập cũng giúp em bước đầu tiếp cận với công nghệ FPGA và đặc biệt là kiến trúc AI Engine trên chip Versal của AMD, từ đó có định hướng nghiên cứu và ứng dụng cho các đề tài sau này liên quan đến xử lý tín hiệu số tốc độ cao và các hệ thống thông tin không dây.  
+
+Báo cáo được tổ chức thành 3 phần chính:
+\begin{itemize}
+    \item Phần 1: Tổng quan về 5G new radio.
+    \item Phần 2: Thực thi mã hóa và giải mã kênh PUCCH format 0 trên MATLAB.
+    \item Phần 3: Kiến trúc AI Engine trên chip Versal. 
+\end{itemize}
+
+
+\newpage
+\input{Chương 1}
+\input{Chương 2}
+\input{Chương 3}
+\chapter{Kết luận và hướng phát triển.}
+
+Qua báo cáo này, em đã hệ thống hóa các kiến thức nền tảng về 5GNR, kiến trúc AI Engine và các thuật toán then chốt trong quá trình mã hóa, giải mã chuỗi PUCCH format 0. Việc triển khai các công thức trên MATLAB đã giúp em hiểu sâu hơn về cách tạo chuỗi giả ngẫu nhiên, tính toán tham số và sinh chuỗi cơ sở, đồng thời kiểm chứng tính chính xác của từng bước thông qua mô phỏng. Tuy nhiên, để mô phỏng sát thực tế hơn, em cần bổ sung các bước truyền chuỗi qua lưới tài nguyên, kênh nhiễu, thực hiện giải mã tín hiệu nhận được nhằm trích xuất thông tin UCI và đánh giá hiệu quả giải điều chế. Đây sẽ là định hướng phát triển tiếp theo của em, đồng thời là tiền đề cho các nghiên cứu chuyên sâu hoặc đề tài tốt nghiệp trong tương lai. Em rất mong nhận được những góp ý quý báu từ cô để hoàn thiện hơn về nội dung và phương pháp nghiên cứu.
+
+\includepdf[page=-]{EncodeAndDecodePUCCH0.pdf}
+\newpage\printbibliography[title={Tài liệu tham khảo}]
+\end{document}

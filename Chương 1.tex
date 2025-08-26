@@ -1,0 +1,109 @@
+\chapter{Tổng quan về 5G/NR.}
+\begin{quote}
+    Thời gian nghiên cứu: tuần 1, 2, 3.
+\end{quote}
+
+5G/New radio(NR) là thế hệ mạng thứ 5 với tốc độ tối đa được công bố lên tới 20Gbps, so với 1Gbps tối đa của 4GLTE. 5G hứa hẹn sẽ hỗ trợ rất lớn với hệ thông IoT, AI thời gian thực với các xe tự hành, hệ thống thời gian thực....
+
+\section{Kiến trúc.}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Pictures/kientruc.png}
+    \caption{Kiến trúc mức cao.}
+    \label{fig:kientruc}
+\end{figure}
+\begin{itemize}
+    \item gNB: trạm gốc 5G, chịu trách nhiệm truyền và nhận sóng tới các thiết bị, bao gồm cả C-plane (Control plane) và U-plane (User-plane).
+    \item UE: thiết bị người dùng.
+\end{itemize}
+
+Kiến trúc hệ thống của 5G/NR cũng gần tương đương với 4G/LTE được mô tả ở \ref{fig:kientruc}, bao gồm 2 stack đảm nhiệm tùy theo loại dữ liệu được xử lý: C-plane: đảm nhận signaling message trong khi U-plane: đảm nhận dữ liệu người dùng. Cả U-plane và C-plane đều bao gồm những thành phần chung: PHY MAC, RLC và PDCP nhưng các thành phần ơ trên cùng có sự khác nhau. \begin{itemize}
+    \item C-Plane: có thêm 2 layer RRC (radio resource control: thành phần điều khiển trung tâm, giúp UE và mạng cấu hình và đồng bộ các lớp giao thức thấp để truyền thông) và NAS (Non-Access Stratum).
+    \item U-plane: có thêm 1 lớp SDAP(Service Data Adaptation Protocol để phân loại luồng dữ liệu người dùng) ở trên cùng.
+\end{itemize}
+\section{Luồng dữ liệu trong hệ thống.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Pictures/messageflow.png}
+    \caption{Luồng dữ liệu trong hệ thống.}
+\end{figure}
+Quá trình truyền và nhận dữ liệu trong mạng 5G, như minh họa, có thể được mô tả qua các bước sau:
+\begin{enumerate}
+    \item Người dùng tương tác với ứng dụng trên điện thoại thông minh, tạo ra dữ liệu cần được truyền tải (ví dụ: gửi tin nhắn, truy cập web, xem video).
+    \item  Bộ xử lý ứng dụng (Application Processor) và modem trong điện thoại phối hợp để xử lý, mã hóa và đóng gói dữ liệu này theo các giao thức truyền thông phù hợp (bao gồm các tầng như PDCP, RLC, MAC…).
+    \item Dữ liệu đã mã hóa được chuyển tới frontend tần số vô tuyến (RF Frontend) của thiết bị, nơi nó được chuyển đổi thành tín hiệu vô tuyến và phát sóng qua ăng-ten.
+    \item Trạm gốc (gNB) thuộc mạng truy nhập vô tuyến 5G (5G RAN) sẽ tiếp nhận tín hiệu vô tuyến từ thiết bị người dùng.
+    \item Trạm gốc gNB xử lý tín hiệu, sau đó chuyển tiếp dữ liệu tới mạng lõi (Core Network), nơi chịu trách nhiệm điều phối tổng thể mạng và kết nối với Internet.
+    \item Mạng lõi định tuyến dữ liệu đến mạng Internet công cộng để đến được máy chủ dữ liệu đích (ví dụ: máy chủ của ứng dụng hoặc website mà người dùng đang truy cập).
+    \item Máy chủ dữ liệu tiếp nhận yêu cầu, xử lý và tạo ra phản hồi phù hợp (ví dụ: kết quả tìm kiếm, nội dung video, phản hồi từ ứng dụng…).
+    \item Luồng phản hồi đi ngược lại theo trình tự ban đầu: từ máy chủ → qua Internet → đến mạng lõi → đến trạm gốc gNB → phát sóng trở lại đến thiết bị người dùng.
+    \item Modem và bộ xử lý ứng dụng trên điện thoại tiếp nhận phản hồi, giải mã và xử lý dữ liệu để hiển thị kết quả cuối cùng cho người dùng thông qua giao diện ứng dụng.
+\end{enumerate}
+\section{Lớp vật lý}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Pictures/phy.png}
+\end{figure}
+
+Lớp vật lý (PHY) trong 5G NR đóng vai trò trung tâm trong việc xử lý tín hiệu vô tuyến, đảm bảo truyền và nhận dữ liệu hiệu quả giữa thiết bị người dùng (UE) và trạm gốc (gNB). Theo hình minh họa, lớp PHY thực hiện các chức năng cốt lõi như đồng bộ thời gian (Time Sync), quét tần số (Frequency Scan), điều khiển công suất (Power Control), báo cáo trạng thái kênh (CSI Report) và phân kênh (Channelization). Ngoài ra, các chức năng như MIMO, quản lý chùm tia (Beam Management) và cấu trúc khung (Frame Structure) thể hiện sự linh hoạt và khác biệt của 5G so với các thế hệ trước, giúp tối ưu hóa hiệu suất truyền dẫn, mở rộng vùng phủ sóng và đáp ứng đa dạng nhu cầu dịch vụ hiện đại.
+
+\subsection{Frame Structure.}
+Frame structure đã được thiết kế linh hoạt hơn so với LTE nhằm phục vụ các tác vụ hiện tại như xe tự hành, IoT, truyền video tốc độ cao.
+Tài nguyên được chia nhỏ thành các resource block sau đó được chia nhỏ thành các element trên lưới tài nguyên (resource grid). Điều này giúp phân bổ tài nguyên hợp lý tùy theo nhu cầu sử dụng. Bên cạnh đó, khái niệm Numerology là cốt lõi để tạo ra sự linh hoạt này.
+\subsubsection{Numerology.}
+Một số khái niệm: \begin{itemize}
+    \item \textbf{Numerology} (kí hiệu là $\mu$): trong 5G là tập hợp các thông số vật lý định nghĩa cấu trúc sóng mang OFDM 
+    \item Subcarrier spacing (SCS): Khoảng cách giữa các sóng con (tính bằng kHz).
+    \item Cyclic Prefix (CP): tiền tố vòng để tránh giao thoa đa đường 
+    \item Slot length: nhỏ hơn khi subcarrier spacing rộng hơn ($\mu$ nhỏ).
+\end{itemize}
+Khác với LTE chỉ hỗ trợ một loại subcarrier spacing ở 15kHz, 5GNR hỗ trợ nhiều loại subcarrier spacing tùy theo tham số $\mu$. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Pictures/numerology.png}
+    \caption{Các thông số vật lý trong numerology.\cite{ShareTechnote_5GNR_nume}}
+\end{figure}
+Với giá trị $\mu$ càng tăng thì khoảng cách giữa các sóng con được nhân đôi theo cấp số nhân 2, thời gian slot giảm, tốc độ truyền nhanh hơn, làm cho băng thông 12 sóng con tăng theo (với $\mu$= 0 thì 12 sub carier là $ 15*12*2^0 = 180$ kHz, với $\mu$ = 6 thì 12 sub carrier là $12* 15* 2^6 = 11520$ kHz).
+
+
+
+\textit{Tại sao lại cần nhiều loại subcarrier spacing?}
+\begin{itemize}
+    \item Subcarrier spacing lớn ($\mu$ cao):
+    \begin{itemize}
+        \item Symbols ngắn hơn -> truyền nhah hơn.
+        \item Phù hợp với tần số cao.
+        \item Dùng cho truyền tin siêu nhanh (URLLC), ví dụ: xe tự lái.
+    \end{itemize}
+    \item Subcarrier spacing lớn ($\mu$ nhỏ):
+    \begin{itemize}
+        \item Symbol dài hơn -> chống nhiễu tốt hơn.
+        \item Phù hợp cho môi trường rộng, nhiều nhiễu.
+        \item Dùng cho truyền tải dữ liệu lớn: xem video 4K, tải dữ liệu lớn.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Lưới tài nguyên (Resource Grid).}
+Như được mô tả trong hình\ref{regr}, 1 subframe = 1 ms, chứa $14*2^{\mu}$ symbols.
+\begin{itemize}
+    \item Trục hoành (l): thời gian chia thành các OFDM symbols, gồm $14*2^{\mu}$ được đánh số từ 0 đến $14*2^{\mu} -1$.
+    \item Trục tung (k): tần số chia thành các subcarriers.
+    \item Resource element(RE): đơn vị nhỏ nhất trong resouce grid, ứng với 1 subcarrier tại 1 OFDM symbol.
+    \item Resource block (RB): Ứng với $12N^{RB}_{sc}$ subcarrier liên tiếp trong miền tần số và độ dài tùy chỉnh trong miền thời gian. [38.211-4.4.4.1]
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Pictures/resourcegrid.png}
+    \caption{Mô tả trực quan của khối dữ liệu trong 1 subframe.\cite{ShareTechnote_5GNR_nume}}
+
+    \label{regr}
+\end{figure}
+\section{Dạng sóng.}
+Khi bắt đầu thiết kế 5G, nhiều waveform mới được đề cập (FBMC, UFMC). Tuy nhiên sau khi đánh giá, OFDM vẫn được sử dụng với tính linh hoạt trong cấu hình. \cite{ShareTechnote_5G_Waveform}
+Khái niệm cơ bản về OFDM: 
+\begin{itemize}
+    \item Các sóng trực giao với nhau, tại thời điểm lấy mẫu của sóng này thì các sóng khác bằng 0.
+    \item Nhằm truyền đa kênh.
+    \item Tuy nhiên trong không gian cũng có nhiễu làm trôi tần số, gây ra ảnh hưởng của các kênh lên nhau.
+    \item Cách xử lý: thêm cyclic prefix và để xử lý lỗi chồng lấn.
+\end{itemize}
